@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOptions<ApiSettings>().Bind(builder.Configuration.GetSection(Constants.ApiSettingsKey)).ValidateDataAnnotations();
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql("Server=ec2-34-193-44-192.compute-1.amazonaws.com;Database=dd0tg94qqgl8kd;User Id=ixaysypnrxinuh;Password=d2e005b71d9a3c4a86c7646463f37e37898cf9cb03aee1a4a2e861fb3e455cb2;Port=5432"));
+builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")));
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 builder.Services.AddSingleton<IUserPermissionService, UserPermissionService>();
