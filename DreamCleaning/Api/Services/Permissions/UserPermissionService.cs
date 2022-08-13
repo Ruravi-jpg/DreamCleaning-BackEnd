@@ -8,6 +8,11 @@ namespace DC.WebApi.Api.Services.Permissions
     {
         public void EnsureCanCreateUser(UserCreateModel model, UserJWT currentUser)
         {
+            
+            //you cant create auperadmin users
+            if (model.Role == UserRole.SuperAdmin)
+                DCException.ThrowCannotCreateAdminUser();
+
             //only can create users if we are superadmin
             if (currentUser.Role == UserRole.SuperAdmin)
                 return;

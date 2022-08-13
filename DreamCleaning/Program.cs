@@ -34,13 +34,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserDomain, UserDomain>();
 
 
-//builder.Services.AddAuthentication(auth =>
-//{
-//    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//}).AddJwtBearer();
-
-//builder.Services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtBearerOptions>();
 
 builder.Services.AddHttpContextAccessor()
     .AddAuthorization()
@@ -57,6 +50,19 @@ builder.Services.AddHttpContextAccessor()
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:JwtSigningKey"]))
     });
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+    builder.Services.AddCors(options =>
+    {
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
+                      });
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,6 +73,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -25,6 +25,11 @@
             throw new DCException(5010, "Cannot create user based on your credentials");
         }
 
+        public static void ThrowCannotCreateAdminUser()
+        {
+            throw new DCException(5030, "Cannot create admin users");
+        }
+
         public static void ThrowCannotEditUser()
         {
             throw new DCException(5020, "Cannot update user based on your credentials");

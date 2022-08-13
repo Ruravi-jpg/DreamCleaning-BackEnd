@@ -63,7 +63,7 @@ namespace DC.WebApi.Api.Services
             var token = Generate(userdb);
             var strToken = _tokenHandler.WriteToken(token);
 
-            return new UserTokenViewModel(strToken, token.ValidTo, Constants.SecuredApiPath);
+            return new UserTokenViewModel(strToken, token.ValidTo, Constants.SecuredApiPath, userdb);
         }
 
         public bool ValidateDateFromToken(string token)

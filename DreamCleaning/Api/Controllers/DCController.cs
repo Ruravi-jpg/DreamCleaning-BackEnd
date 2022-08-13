@@ -21,15 +21,14 @@ namespace DC.WebApi.Api.Controllers
             {
                 var claims = HttpContext.User.Claims;
                 var sub = GetClaim(ClaimTypes.NameIdentifier, claims);
-                var username = GetClaim(ClaimTypes.Name, claims);
+                var name = GetClaim("name", claims);
                 var role = GetClaim(ClaimTypes.Role, claims);
-
                 long id = long.Parse(sub.Value);
 
                 if (!Enum.TryParse(role.Value, out UserRole roleEnum))
                     roleEnum = UserRole.Employee;
 
-                _userJwt = new UserJWT(id, username.Value, roleEnum);
+                _userJwt = new UserJWT(id, name.Value, roleEnum);
             }
             return _userJwt;
         }

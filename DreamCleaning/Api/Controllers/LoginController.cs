@@ -50,8 +50,10 @@ namespace DreamCleaning.Controllers
 
         [HttpGet("status")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<bool> Get()
+        public  ActionResult<bool> Get()
         {
+            var headers = Request.Headers["Authorization"];
+            var headers2 = Request.Headers["test"];
             if (User != default && User.Identity != default)
             {
                 if (User.Identity.IsAuthenticated)
