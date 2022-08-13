@@ -62,6 +62,13 @@ namespace DreamCleaning.Controllers
             return Ok(false);
         }
 
+
+        [HttpGet("test")]
+        public ActionResult<string> testApi()
+        {
+            return Ok("Hola desde el backend");
+        }
+
         
     }
 }
