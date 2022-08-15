@@ -34,6 +34,8 @@ if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.Sta
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
+Console.WriteLine(connectionString);
+
 connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
 
