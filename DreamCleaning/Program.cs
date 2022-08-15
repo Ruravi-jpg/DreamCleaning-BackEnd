@@ -70,8 +70,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000");
-                          policy.WithOrigins();
+                          policy.WithOrigins("https://dream-cleaning-front.herokuapp.com");
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
                       });
