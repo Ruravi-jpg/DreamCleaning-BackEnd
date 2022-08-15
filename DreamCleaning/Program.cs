@@ -36,7 +36,7 @@ if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.Sta
 
 Console.WriteLine(connectionString);
 
-connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
