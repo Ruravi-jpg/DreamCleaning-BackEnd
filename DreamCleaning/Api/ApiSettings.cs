@@ -23,5 +23,7 @@ namespace DC.WebApi.Api
         [Range(typeof(TimeSpan), "00:00:00", "00:20:00")]
         public TimeSpan JwtClockSkew { get; set; } = TimeSpan.FromMinutes(2);
 
+        public bool DoMigration { get; set; } = true;
+
     }
 }

@@ -23,8 +23,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddOptions<ApiSettings>().Bind(builder.Configuration.GetSection(Constants.ApiSettingsKey)).ValidateDataAnnotations();
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")));
+string connectionString = "";
+
+
+if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.StagingEnviroment)
+{
+    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
+}else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
+
+
+builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 builder.Services.AddSingleton<IUserPermissionService, UserPermissionService>();
@@ -71,6 +82,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+
+//do migration
+using var scope = app.Services.CreateScope();
+var apiOptions = scope.ServiceProvider.GetRequiredService<IOptions<ApiSettings>>();
+if (apiOptions.Value.DoMigration)
+{
+    var db = scope.ServiceProvider.GetRequiredService<DCDbContext>();
+    db.Database.Migrate();
 }
 
 app.UseHttpsRedirection();
