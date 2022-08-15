@@ -26,15 +26,15 @@ builder.Services.AddOptions<ApiSettings>().Bind(builder.Configuration.GetSection
 string connectionString = "";
 
 
-if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.StagingEnviroment)
-{
-    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
-}else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-}
+//if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.StagingEnviroment)
+//{
+//    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
+//}else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
+//{
+//    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//}
 
-
+connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
