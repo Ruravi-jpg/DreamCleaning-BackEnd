@@ -9,7 +9,7 @@ namespace DC.WebApi.Core.Domain
         Task<List<UserEntity>> GetAllInactiveAsync(CancellationToken token);
         ValueTask<UserEntity> FindByIdAsync(long id, CancellationToken token);
         Task<UserEntity> FindByAsync(string username, string password, CancellationToken token);
-        Task<UserEntity> CreateAsync(UserCreateModel user, long createdByUserId, CancellationToken token);
+        Task<UserEntity> CreateAsync(UserCreateModel user, CancellationToken token);
         Task<int> UpdateAsync(UserEntity userdb, UserUpdateModel user, CancellationToken token);
         Task<int> DeleteAsync(UserEntity user, CancellationToken token);
         ValueTask<UserEntity> FindInactiveByIdAsync(long id, CancellationToken token);

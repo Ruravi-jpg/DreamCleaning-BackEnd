@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DC.WebApi.Core.Data.Entities
 {
-
+    [Index(nameof(Username), IsUnique = true)]
     public class UserEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

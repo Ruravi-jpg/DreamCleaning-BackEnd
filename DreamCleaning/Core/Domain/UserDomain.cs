@@ -16,7 +16,7 @@ namespace DC.WebApi.Core.Domain
             _passwordHelper = passwordHelp;
         }
 
-        public async Task<UserEntity> CreateAsync(UserCreateModel user, long createdByUserId, CancellationToken token)
+        public async Task<UserEntity> CreateAsync(UserCreateModel user, CancellationToken token)
         {
             var userExists = await _repo.FindByAsync(user.Username, token);
 

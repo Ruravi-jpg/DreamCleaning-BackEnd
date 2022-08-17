@@ -31,7 +31,7 @@ if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.Sta
     connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
 }else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
 {
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    connectionString = builder.Configuration.GetConnectionString("LocalConection");
 }
 
 
@@ -43,6 +43,9 @@ builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserDomain, UserDomain>();
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeDomain, EmployeeDomain>();
 
 
 
@@ -68,8 +71,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000");
-                          policy.WithOrigins();
+                          policy.AllowAnyOrigin();
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
                       });

@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Core\ImageHelper\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
