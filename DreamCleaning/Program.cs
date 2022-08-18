@@ -71,6 +71,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
+                          policy.WithOrigins("https://dream-cleaning-front.herokuapp.com");
                           policy.AllowAnyOrigin();
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
