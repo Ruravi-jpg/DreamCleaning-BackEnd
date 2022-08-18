@@ -28,7 +28,7 @@ string connectionString = "";
 
 if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.StagingEnviroment)
 {
-    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
+    connectionString = Environment.GetEnvironmentVariable("ConnectionString").ToString();
 }else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
 {
     connectionString = builder.Configuration.GetConnectionString("LocalConection");
