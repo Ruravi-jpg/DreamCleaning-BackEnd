@@ -72,7 +72,7 @@ namespace DC.WebApi.Api.Controllers
         public async Task<IActionResult> Post([FromBody] UserCreateModel user, CancellationToken token)
         {
             _permissionService.EnsureCanCreateUser(user, UserJwt);
-            var userdb = await _domain.CreateAsync(user, UserJwt.Id, token);
+            var userdb = await _domain.CreateAsync(user, token);
             return CreatedAtAction(nameof(Get), new { id = userdb.Id }, null);
         }
 

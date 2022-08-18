@@ -28,15 +28,13 @@ string connectionString = "";
 
 if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.StagingEnviroment)
 {
-    connectionString = Environment.GetEnvironmentVariable("ConnectionString").ToString();
+    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL").ToString();
 }else if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.DevelopmentEnviroment)
 {
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    connectionString = builder.Configuration.GetConnectionString("LocalConection");
 }
 
-Console.WriteLine(connectionString);
 
-//connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
@@ -45,6 +43,9 @@ builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserDomain, UserDomain>();
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeDomain, EmployeeDomain>();
 
 
 
@@ -71,6 +72,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
                       policy =>
                       {
                           policy.WithOrigins("https://dream-cleaning-front.herokuapp.com");
+                          policy.AllowAnyOrigin();
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
                       });
