@@ -36,7 +36,7 @@ namespace DC.WebApi.Api.Controllers
         }
 
 
-        [HttpGet("/inactive")]
+        [HttpGet("inactive")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -48,7 +48,7 @@ namespace DC.WebApi.Api.Controllers
         }
 
 
-        [HttpGet("/{idEmp}")]
+        [HttpGet("{idEmp}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -74,7 +74,7 @@ namespace DC.WebApi.Api.Controllers
         }
 
 
-        [HttpPut("/{idEmp}")]
+        [HttpPut("{idEmp}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,7 +95,7 @@ namespace DC.WebApi.Api.Controllers
         }
 
 
-        [HttpDelete("/{idEmp}")]
+        [HttpDelete("{idEmp}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] long idEmp, CancellationToken token)

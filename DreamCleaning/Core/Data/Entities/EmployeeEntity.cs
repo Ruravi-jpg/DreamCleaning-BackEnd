@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DC.WebApi.Api.Services;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,11 +38,11 @@ namespace DC.WebApi.Core.Data.Entities
 
         public EmployeeEntity(string name, string lastname, string address, string street1, string street2, string comments, long userEntityId)
         {
-            Name = name;
-            LastName = lastname;
-            StreetAddress = address;
-            RefStreet1 = street1;
-            RefStreet2 = street2;
+            Name = CleanNames.CleanName(name);
+            LastName = CleanNames.CleanName(lastname);
+            StreetAddress = CleanNames.CleanName(address);
+            RefStreet1 = CleanNames.CleanName(street1);
+            RefStreet2 = CleanNames.CleanName(street2);
             Comments = comments;
             UserEntityId = userEntityId;
             IsActive = true;
