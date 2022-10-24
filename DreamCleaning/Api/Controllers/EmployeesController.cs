@@ -83,7 +83,7 @@ namespace DC.WebApi.Api.Controllers
         {
             var employeeDb = await _employeeDomain.FindByIdAsync(idEmp, token);
 
-            if (employeeDb != default)
+            if (employeeDb == default)
             {
                 employeeDb = await _employeeDomain.FindInactiveByIdAsync(idEmp, token);
                 if (employeeDb == default)

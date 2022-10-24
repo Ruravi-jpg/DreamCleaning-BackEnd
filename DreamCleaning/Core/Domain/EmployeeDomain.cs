@@ -60,7 +60,7 @@ namespace DC.WebApi.Core.Domain
 
         public Task<EmployeeEntity> FindByIdAsync(long idEmp, CancellationToken token)
         {
-            var employee = _repo.FindByAsync(idEmp, token);
+            var employee = _repo.FindByIdAsync(idEmp, token);
 
             if (employee == default)
                 return default;
