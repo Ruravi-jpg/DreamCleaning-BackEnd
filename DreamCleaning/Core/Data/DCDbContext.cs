@@ -17,6 +17,7 @@ namespace DC.WebApi.Core.Data
 
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<EmployeeEntity> Employees { get; set; }
+        public DbSet<PropertyEntity> Properties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

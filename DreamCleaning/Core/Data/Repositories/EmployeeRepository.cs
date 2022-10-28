@@ -36,14 +36,14 @@ namespace DC.WebApi.Core.Data.Repositories
         {
             return _context.Employees
                 .Include(x => x.UserEntity)
-                .Where(x => x.IsActive == true).ToListAsync();
+                .Where(x => x.IsActive == true).ToListAsync(token);
         }
 
         public Task<List<EmployeeEntity>> GetAllInactiveAsync(CancellationToken token)
         {
             return _context.Employees
                 .Include(x => x.UserEntity)
-                .Where(x => x.IsActive == false).ToListAsync();
+                .Where(x => x.IsActive == false).ToListAsync(token);
         }
     }
 }

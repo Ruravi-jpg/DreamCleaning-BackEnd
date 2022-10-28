@@ -48,6 +48,9 @@ builder.Services.AddScoped<IUserDomain, UserDomain>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeDomain, EmployeeDomain>();
 
+builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+builder.Services.AddScoped<IPropertyDomain, PropertyDomain>();
+
 
 
 builder.Services.AddHttpContextAccessor()
