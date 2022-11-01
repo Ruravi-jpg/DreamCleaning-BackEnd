@@ -7,6 +7,7 @@ using DC.WebApi.Core.Data.Repositories;
 using DC.WebApi.Core.Domain;
 using DreamCleaning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +37,8 @@ if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Constants.Sta
 
 
 builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connectionString));
+
+
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 builder.Services.AddSingleton<IUserPermissionService, UserPermissionService>();
@@ -75,13 +78,13 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://dream-cleaning-front.herokuapp.com");
+                          policy.WithOrigins("https://localhost:3000");
+                          policy.WithOrigins("https://dream-cleaning.vercel.app");
                           policy.AllowAnyOrigin();
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
                       });
     });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
