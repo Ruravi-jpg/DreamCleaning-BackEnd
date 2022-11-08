@@ -34,5 +34,35 @@
         {
             throw new DCException(5020, "Cannot update user based on your credentials");
         }
+
+        public static void ThrowCannotCreateProperty()
+        {
+            throw new DCException(7030, "You can´t create a property based on your credentials");
+        }
+
+        public static void ThrowCannotEditProperty()
+        {
+            throw new DCException(7040, "You can´t edit a property based on your credentials");
+        }
+
+        internal static void ThrowCannotSaveImageInvalidLength()
+        {
+            throw new DCException(4040, "Cannot upload image, invalid data");
+        }
+
+        internal static void ThrowCannotSaveImageTooLarge()
+        {
+            throw new DCException(4050, "Cannot upload image, it´s too large");
+        }
+
+        internal static void ThrowCannotSaveImageInvalidExtension()
+        {
+            throw new DCException(4060, "Cannot upload image, invalid extension");
+        }
+
+        public static void ThrowImageNotFound()
+        {
+            throw new DCException(4070, "image not found");
+        }
     }
 }

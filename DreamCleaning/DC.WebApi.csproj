@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\ImageHelper\**" />
+    <Content Remove="Core\ImageHelper\**" />
+    <EmbeddedResource Remove="Core\ImageHelper\**" />
+    <None Remove="Core\ImageHelper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -28,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\ImageHelper\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@ namespace DC.WebApi.Api.Models
         public string Address { get; set; }
         public string BtwnStreet1 { get; set; }
         public string BtwnStreet2 { get; set; }
-        public int HoursService { get; set; }
+        public float HoursService { get; set; }
         public float CostService { get; set; }
         public string Comments { get; set; }
         public List<string> ReferencePhotosList { get; set; }
@@ -26,6 +26,11 @@ namespace DC.WebApi.Api.Models
             HoursService = property.HoursService;
             CostService = property.CostService;
             Comments = property.Comments;
+
+            foreach(var imagePath in property.ReferencePhotosList)
+            {
+                ReferencePhotosList.Add(Constants.GetImageGuid(imagePath));
+            }
             ReferencePhotosList = property.ReferencePhotosList;
 
             EmployeesList = new List<EmployeePropertyViewModel>();

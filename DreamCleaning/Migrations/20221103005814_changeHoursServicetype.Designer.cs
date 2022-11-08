@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DC.WebApi.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DC.WebApi.Migrations
 {
     [DbContext(typeof(DCDbContext))]
-    partial class DCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221103005814_changeHoursServicetype")]
+    partial class changeHoursServicetype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,7 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Name", "LastName")
                         .IsUnique();
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.PropertyEmployeeEntity", b =>
@@ -88,7 +90,7 @@ namespace DC.WebApi.Migrations
 
                     b.HasIndex("PropertyId");
 
-                    b.ToTable("PropertyEmployeeEntity", (string)null);
+                    b.ToTable("PropertyEmployeeEntity");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.PropertyEntity", b =>
@@ -133,7 +135,7 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Alias")
                         .IsUnique();
 
-                    b.ToTable("Properties", (string)null);
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.UserEntity", b =>
@@ -167,7 +169,7 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new

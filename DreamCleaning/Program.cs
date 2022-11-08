@@ -42,8 +42,10 @@ builder.Services.AddDbContext<DCDbContext>(options => options.UseNpgsql(connecti
 
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 builder.Services.AddSingleton<IUserPermissionService, UserPermissionService>();
+builder.Services.AddSingleton<IPropertyPermissionService, PropertyPermissionService>();
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 builder.Services.AddSingleton<CleanNames>();
+builder.Services.AddSingleton<IImageHelper, ImageHelper>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserDomain, UserDomain>();

@@ -25,6 +25,14 @@ namespace DC.WebApi.Core.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == idProp && x.IsActive == true, token);
         }
 
+        public Task<string> FindImagesUrl(string alias, string guid, CancellationToken token)
+        {
+            return _context.Properties
+                .Where(x => x.Alias == alias)
+                .Select(x => x.ReferencePhotosList.SingleOrDefault(x => x.Contains(guid))).FirstOrDefaultAsync();
+                
+        }
+
         public Task<PropertyEntity> FindInactiveByIdAsync(long idProp, CancellationToken token)
         {
             return _context.Properties

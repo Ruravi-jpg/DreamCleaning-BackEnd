@@ -8,10 +8,10 @@ namespace DC.WebApi.Core.Domain.Models
         public string Alias { get; set; }
         public string BtwnStreet1 { get; set; }
         public string BtwnStreet2 { get; set; }
-        public int HoursService { get; set; }
+        public float HoursService { get; set; }
         public float CostService { get; set; }
         public string Comments { get; set; }
-        public List<string> ReferencePhotosList { get; set; }
+        public List<byte[]> ReferencePhotosList { get; set; }
         public List<long> EmployeesList { get; set; }
 
         public PropertyCreateModel()
@@ -24,10 +24,10 @@ namespace DC.WebApi.Core.Domain.Models
             string address,
             string btwnStreet1,
             string btwnSrteet2,
-            int hoursService,
+            float hoursService,
             float costService,
             string comments,
-            List<string> referencePhotosList,
+            List<byte[]> referencePhotosList,
             List<long> employeeIdList
             )
         {

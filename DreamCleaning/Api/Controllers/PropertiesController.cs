@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using DC.WebApi.Core.Data.Entities;
+using DC.WebApi.Api.Services.Permissions;
 
 namespace DC.WebApi.Api.Controllers
 {
@@ -17,14 +18,15 @@ namespace DC.WebApi.Api.Controllers
     public class PropertiesController : DCController
     {
         private readonly IPropertyDomain _propertyDomain;
+        private readonly IPropertyPermissionService _permisionService;
 
-        public PropertiesController(IPropertyDomain propertyDomain)
+        public PropertiesController(IPropertyDomain propertyDomain, IPropertyPermissionService permisionService)
         {
             _propertyDomain = propertyDomain;
+            _permisionService = permisionService;
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -40,7 +42,6 @@ namespace DC.WebApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
-        [AllowAnonymous]
         public async Task<IList<PropertyViewModel>> GetInactive(CancellationToken token)
         {
             var properties = await _propertyDomain.GetAllInactiveAsync(token);
@@ -50,7 +51,6 @@ namespace DC.WebApi.Api.Controllers
 
 
         [HttpGet("{idProp}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -64,27 +64,47 @@ namespace DC.WebApi.Api.Controllers
             return Ok(new PropertyViewModel(property));
         }
 
+        [HttpGet("images/{alias}/{guid}")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Text.Plain)]
+        public async Task<IActionResult> GetImage([FromRoute] string alias, [FromRoute] string guid, CancellationToken token)
+        {
+            var imagePath = await _propertyDomain.GetImagesPath(alias, guid, token);
+
+            if (imagePath == default)
+                NotFound();
+
+            byte[] bytes = System.IO.File.ReadAllBytes(imagePath);
+            string mimeType = Constants.GetMimeType(guid);
+            return File(bytes, mimeType);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Consumes(MediaTypeNames.Application.Json)]
+        [Consumes("multipart/form-data")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> Post([FromBody] PropertyCreateModel property, CancellationToken token)
+        public async Task<IActionResult> Post([FromForm] PropertyCreateModel property, CancellationToken token)
         {
+            _permisionService.EnsureCanCreateProperty(UserJwt);
             var propertyDb = await _propertyDomain.CreatePropertyAsync(property, token);
             return CreatedAtAction(nameof(Get), new { IdProp = propertyDb.Id }, null);
         }
 
 
         [HttpPut("{idProp}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> Put([FromRoute] long idProp, [FromBody] PropertyUpdateModel property, CancellationToken token)
+        public async Task<IActionResult> Put([FromRoute] long idProp, [FromForm] PropertyUpdateModel property, CancellationToken token)
         {
+
+            _permisionService.EnsureCanModifyProperty(UserJwt);
+
             var propertyDb = await _propertyDomain.FindByIdAsync(idProp, token);
 
             if (propertyDb == default)
@@ -100,7 +120,6 @@ namespace DC.WebApi.Api.Controllers
 
 
         [HttpDelete("{idProp}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] long idProp, CancellationToken token)

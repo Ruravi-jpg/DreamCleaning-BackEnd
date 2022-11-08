@@ -1,4 +1,5 @@
 ﻿using DC.WebApi.Core.Data.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace DC.WebApi.Core.Domain.Models
 {
@@ -8,10 +9,10 @@ namespace DC.WebApi.Core.Domain.Models
         public string Address { get; set; }
         public string BtwnStreet1 { get; set; }
         public string BtwnStreet2 { get; set; }
-        public int HoursService { get; set; }
+        public float HoursService { get; set; }
         public float CostService { get; set; }
         public string Comments { get; set; }
-        public List<string> ReferencePhotosList { get; set; }
+        public List<IFormFile> ReferencePhotosList { get; set; }
         public List<long> EmployeeList { get; set; }
 
         public PropertyUpdateModel()
@@ -23,10 +24,10 @@ namespace DC.WebApi.Core.Domain.Models
             string address,
             string btwnStreet1,
             string btwnSrteet2,
-            int hoursService,
+            float hoursService,
             float costService,
             string comments,
-            List<string> referencePhotosList,
+            List<IFormFile> referencePhotosList,
             List<long> employeeList)
         {
             Alias = alias;

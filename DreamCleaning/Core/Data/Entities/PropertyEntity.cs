@@ -17,7 +17,7 @@ namespace DC.WebApi.Core.Data.Entities
         public string BtwnStreet1 { get; set; }
         public string BtwnStreet2 { get; set; }
         [Required]
-        public int HoursService { get; set; }
+        public float HoursService { get; set; }
         [Required]
         public float CostService { get; set; }
         public string Comments { get; set; }
@@ -36,10 +36,10 @@ namespace DC.WebApi.Core.Data.Entities
             string address,
             string btwnStreet1,
             string btwnStreet2,
-            int hoursService,
+            float hoursService,
             float costService,
-            string comments,
-            List<string> referencePhotosList)
+            string comments
+            )
         {
             Alias = CleanNames.CleanName(alias);
             Address = CleanNames.CleanName(address);
@@ -48,7 +48,6 @@ namespace DC.WebApi.Core.Data.Entities
             HoursService = hoursService;
             CostService = costService;
             Comments = comments;
-            ReferencePhotosList = referencePhotosList;
             PropertyEmployees = new List<PropertyEmployeeEntity>();
 
             IsActive = true;

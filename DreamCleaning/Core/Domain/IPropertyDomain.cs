@@ -1,5 +1,6 @@
 ﻿using DC.WebApi.Core.Data.Entities;
 using DC.WebApi.Core.Domain.Models;
+using Newtonsoft.Json.Linq;
 
 namespace DC.WebApi.Core.Domain
 {
@@ -13,5 +14,6 @@ namespace DC.WebApi.Core.Domain
         Task<int> DeleteAsync(PropertyEntity property, CancellationToken token);
         Task<PropertyEntity> FindInactiveByIdAsync(long idProp, CancellationToken token);
         Task<PropertyEntity> CreatePropertyAsync(PropertyCreateModel property, CancellationToken token);
+        Task<string> GetImagesPath(string alias, string guid, CancellationToken token);
     }
 }
