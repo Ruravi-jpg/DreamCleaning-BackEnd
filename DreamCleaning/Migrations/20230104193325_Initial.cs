@@ -21,7 +21,7 @@ namespace DC.WebApi.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     BtwnStreet1 = table.Column<string>(type: "text", nullable: true),
                     BtwnStreet2 = table.Column<string>(type: "text", nullable: true),
-                    HoursService = table.Column<int>(type: "integer", nullable: false),
+                    HoursService = table.Column<float>(type: "real", nullable: false),
                     CostService = table.Column<float>(type: "real", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -75,36 +75,10 @@ namespace DC.WebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "PropertyEmployeeEntity",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PropertyId = table.Column<long>(type: "bigint", nullable: false),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PropertyEmployeeEntity", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PropertyEmployeeEntity_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PropertyEmployeeEntity_Properties_PropertyId",
-                        column: x => x.PropertyId,
-                        principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "IsActive", "Password", "Role", "Salt", "Username" },
-                values: new object[] { 1L, true, new byte[] { 8, 13, 218, 14, 28, 23, 100, 164, 118, 210, 27, 55, 137, 220, 41, 14, 131, 242, 107, 204, 135, 95, 104, 125, 16, 84, 213, 52, 207, 79, 203, 203, 142, 252, 165, 174, 169, 162, 31, 83, 87, 121, 194, 27, 146, 15, 34, 3, 177, 191, 163, 201, 43, 130, 63, 205, 15, 133, 184, 30, 124, 243, 28, 100, 252, 51, 201, 167, 15, 95, 41, 22, 232, 181, 225, 51, 104, 177, 158, 38, 19, 64, 223, 76, 46, 119, 53, 18, 142, 66, 47, 208, 239, 184, 185, 3, 179, 49, 188, 141, 62, 123, 82, 217, 46, 72, 250, 102, 85, 161, 71, 200, 146, 155, 39, 244, 65, 221, 29, 120, 251, 17, 149, 237, 85, 247, 20, 150, 215, 134, 3, 144, 202, 186, 29, 205, 249, 98, 18, 84, 37, 172, 237, 54, 206, 219, 173, 235, 231, 57, 10, 57, 172, 126, 162, 144, 32, 95, 226, 36, 77, 71, 117, 146, 183, 160, 167, 179, 150, 209, 225, 158, 22, 76, 211, 81, 40, 230, 76, 36, 55, 78, 16, 252, 184, 215, 133, 89, 213, 46, 63, 164, 12, 148, 89, 234, 246, 210, 168, 12, 7, 21, 181, 87, 178, 213, 110, 33, 197, 221, 85, 53, 253, 29, 114, 203, 21, 2, 138, 202, 251, 94, 146, 81, 162, 252, 22, 31, 23, 245, 84, 228, 42, 200, 79, 254, 165, 223, 161, 218, 226, 59, 130, 251, 104, 222, 209, 168, 126, 39, 44, 86, 82, 242, 204, 208 }, "SuperAdmin", new byte[] { 251, 208, 177, 163, 20, 65, 67, 231, 7, 84, 29, 60, 121, 28, 189, 247, 10, 10, 64, 111, 174, 83, 168, 233, 50, 184, 117, 105, 194, 243, 242, 46, 67, 233, 219, 199, 91, 165, 55, 233, 246, 10, 42, 15, 243, 209, 151, 186, 129, 61, 104, 25, 118, 65, 47, 118, 217, 104, 79, 76, 37, 99, 59, 99, 1, 19, 251, 156, 221, 227, 125, 64, 160, 152, 218, 58, 127, 25, 93, 82, 175, 147, 57, 34, 245, 120, 32, 72, 72, 144, 221, 10, 150, 239, 116, 242, 69, 30, 179, 40, 223, 25, 148, 83, 248, 61, 152, 243, 237, 193, 101, 146, 36, 55, 199, 8, 167, 128, 159, 64, 183, 111, 148, 120, 216, 198, 214, 104 }, "admin" });
+                values: new object[] { 1L, true, new byte[] { 191, 166, 191, 175, 98, 147, 63, 64, 65, 213, 15, 242, 88, 214, 102, 42, 232, 202, 207, 101, 32, 24, 247, 224, 89, 185, 218, 10, 201, 140, 215, 221, 45, 114, 248, 54, 125, 237, 24, 159, 102, 98, 246, 107, 134, 205, 5, 11, 196, 100, 253, 73, 239, 213, 30, 62, 99, 97, 249, 224, 123, 246, 3, 218, 81, 16, 19, 23, 94, 64, 229, 12, 108, 231, 226, 48, 100, 69, 87, 45, 252, 79, 46, 226, 87, 60, 95, 233, 36, 112, 53, 184, 222, 142, 86, 75, 96, 75, 199, 71, 140, 133, 7, 42, 243, 125, 45, 165, 135, 30, 226, 103, 111, 77, 181, 76, 126, 185, 46, 159, 81, 11, 130, 111, 26, 165, 32, 145, 59, 116, 9, 222, 223, 165, 106, 12, 37, 179, 254, 175, 250, 76, 124, 78, 129, 26, 230, 135, 6, 248, 231, 225, 98, 72, 144, 156, 228, 98, 36, 41, 154, 104, 211, 16, 142, 118, 142, 167, 127, 197, 17, 206, 10, 52, 55, 211, 146, 138, 134, 211, 112, 249, 184, 165, 200, 182, 149, 99, 119, 158, 61, 79, 114, 179, 251, 60, 118, 215, 228, 109, 206, 36, 30, 9, 181, 252, 178, 89, 156, 8, 7, 152, 227, 162, 166, 41, 61, 214, 16, 134, 32, 142, 243, 184, 23, 81, 116, 39, 248, 3, 55, 33, 87, 44, 238, 174, 161, 228, 36, 115, 76, 26, 235, 210, 212, 141, 27, 67, 246, 167, 68, 32, 159, 131, 0, 79 }, "SuperAdmin", new byte[] { 80, 26, 136, 111, 35, 136, 104, 177, 136, 59, 97, 48, 127, 56, 145, 8, 242, 76, 246, 33, 212, 124, 19, 10, 101, 228, 51, 198, 17, 16, 31, 255, 181, 1, 96, 7, 164, 168, 182, 76, 147, 77, 27, 112, 198, 91, 252, 209, 155, 156, 248, 2, 243, 80, 139, 189, 251, 151, 94, 220, 116, 84, 69, 55, 10, 77, 15, 7, 66, 180, 160, 22, 113, 43, 118, 187, 122, 52, 232, 212, 22, 146, 17, 127, 197, 79, 97, 184, 48, 62, 245, 41, 10, 246, 127, 49, 120, 131, 140, 142, 166, 159, 93, 221, 185, 30, 144, 208, 68, 232, 188, 192, 203, 133, 221, 188, 123, 86, 186, 10, 199, 241, 62, 193, 18, 171, 188, 16 }, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_Name_LastName",
@@ -124,16 +98,6 @@ namespace DC.WebApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PropertyEmployeeEntity_EmployeeId",
-                table: "PropertyEmployeeEntity",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PropertyEmployeeEntity_PropertyId",
-                table: "PropertyEmployeeEntity",
-                column: "PropertyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
                 table: "Users",
                 column: "Username",
@@ -142,9 +106,6 @@ namespace DC.WebApi.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "PropertyEmployeeEntity");
-
             migrationBuilder.DropTable(
                 name: "Employees");
 

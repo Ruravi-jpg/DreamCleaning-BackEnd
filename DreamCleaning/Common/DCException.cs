@@ -64,5 +64,10 @@
         {
             throw new DCException(4070, "image not found");
         }
+
+        public static void ThrowInvalidTimeFormat()
+        {
+            throw new DCException(3050, "Invalid time format");
+        }
     }
 }

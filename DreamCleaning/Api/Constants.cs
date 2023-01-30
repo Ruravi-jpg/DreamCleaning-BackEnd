@@ -13,12 +13,14 @@ namespace DC.WebApi.Api
         public const string DevelopmentEnviroment = "Development";
         public const string ProductionEnviroment = "Production";
 
-        public const int MaxImageSize = 3145728;
+        public const int MaxImageSize = 400000;
         public static List<string> ValidImageExtensions = new List<string> { ".jpg", ".jpeg", ".png" };
         public const string SecuredFolderName = "Secured";
         public const string ImagesFolderName = "Images";
 
         public static string ApiImagePath = Path.Combine("api", SecuredApiPath, SecuredFolderName, ImagesFolderName);
+
+        public static string TimeValidationregex = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$";
 
         public static string GetMimeType(string imageGuid)
         {

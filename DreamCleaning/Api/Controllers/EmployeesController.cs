@@ -9,7 +9,7 @@ using System.Net.Mime;
 namespace DC.WebApi.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = nameof(UserRole.SuperAdmin))]
+    //[Authorize(Roles = nameof(UserRole.SuperAdmin))]
     [Route("api/" + Constants.SecuredApiPath + "/[controller]")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

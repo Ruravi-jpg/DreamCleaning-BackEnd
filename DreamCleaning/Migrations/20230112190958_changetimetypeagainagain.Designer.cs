@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DC.WebApi.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DC.WebApi.Migrations
 {
     [DbContext(typeof(DCDbContext))]
-    partial class DCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230112190958_changetimetypeagainagain")]
+    partial class changetimetypeagainagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,7 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Name", "LastName")
                         .IsUnique();
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.PropertyEntity", b =>
@@ -110,7 +112,7 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Alias")
                         .IsUnique();
 
-                    b.ToTable("Properties", (string)null);
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.UserEntity", b =>
@@ -144,16 +146,16 @@ namespace DC.WebApi.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
                             IsActive = true,
-                            Password = new byte[] { 153, 125, 232, 115, 240, 223, 162, 47, 165, 233, 110, 242, 44, 250, 190, 32, 114, 133, 41, 39, 4, 0, 249, 130, 60, 119, 132, 125, 15, 218, 252, 207, 183, 152, 131, 232, 166, 201, 214, 46, 236, 109, 180, 85, 241, 209, 243, 57, 201, 118, 90, 37, 134, 251, 42, 37, 244, 198, 175, 240, 177, 44, 222, 254, 79, 198, 149, 119, 232, 223, 252, 148, 15, 64, 35, 56, 64, 21, 186, 204, 93, 150, 211, 11, 94, 157, 79, 33, 197, 52, 172, 125, 247, 245, 208, 236, 140, 164, 139, 70, 133, 44, 141, 11, 122, 129, 237, 176, 63, 156, 245, 231, 85, 208, 160, 68, 27, 74, 8, 126, 75, 38, 97, 40, 227, 36, 67, 14, 203, 174, 84, 147, 241, 175, 129, 247, 95, 210, 74, 96, 104, 255, 161, 59, 36, 201, 196, 92, 229, 143, 220, 40, 137, 229, 103, 255, 250, 211, 151, 113, 107, 79, 17, 148, 205, 206, 187, 249, 195, 115, 143, 170, 101, 205, 167, 148, 186, 2, 198, 183, 7, 104, 221, 115, 225, 146, 8, 92, 50, 148, 174, 44, 242, 227, 204, 225, 220, 136, 23, 218, 219, 33, 203, 232, 217, 103, 197, 7, 161, 36, 137, 26, 162, 36, 108, 145, 26, 44, 15, 41, 65, 134, 59, 222, 169, 56, 39, 249, 90, 88, 143, 110, 237, 24, 148, 160, 49, 59, 254, 124, 130, 35, 92, 81, 69, 247, 223, 208, 241, 78, 86, 14, 160, 166, 204, 97 },
+                            Password = new byte[] { 118, 65, 252, 72, 244, 65, 239, 7, 106, 71, 43, 12, 224, 121, 97, 181, 36, 80, 23, 1, 245, 54, 115, 32, 126, 252, 161, 244, 228, 199, 129, 78, 186, 85, 220, 123, 225, 253, 7, 221, 41, 223, 17, 22, 174, 238, 206, 98, 244, 182, 211, 109, 249, 202, 125, 125, 62, 103, 101, 222, 60, 136, 129, 216, 183, 222, 181, 97, 115, 19, 210, 112, 173, 137, 160, 200, 161, 148, 216, 154, 171, 37, 38, 13, 100, 30, 219, 0, 122, 121, 215, 28, 140, 21, 214, 29, 250, 73, 79, 92, 107, 39, 248, 110, 213, 6, 99, 94, 182, 105, 174, 67, 250, 211, 225, 165, 96, 172, 249, 124, 42, 247, 33, 193, 67, 94, 21, 157, 75, 31, 44, 208, 225, 157, 243, 225, 137, 118, 147, 162, 25, 113, 11, 205, 101, 20, 234, 242, 199, 97, 17, 13, 70, 101, 157, 170, 68, 182, 147, 167, 60, 72, 142, 151, 194, 220, 152, 240, 252, 72, 179, 111, 40, 76, 67, 157, 244, 245, 52, 229, 47, 72, 161, 160, 145, 91, 31, 249, 110, 20, 210, 117, 118, 223, 174, 151, 129, 154, 188, 54, 94, 44, 126, 134, 106, 168, 206, 169, 55, 4, 111, 179, 179, 250, 102, 65, 171, 102, 89, 237, 190, 171, 248, 161, 122, 33, 31, 148, 106, 50, 30, 125, 152, 181, 92, 146, 200, 42, 248, 154, 254, 135, 253, 182, 182, 97, 227, 90, 92, 203, 226, 124, 205, 90, 140, 220 },
                             Role = "SuperAdmin",
-                            Salt = new byte[] { 22, 84, 80, 26, 109, 33, 205, 56, 120, 210, 172, 85, 141, 64, 10, 89, 167, 19, 21, 244, 182, 90, 56, 18, 214, 57, 197, 18, 209, 2, 117, 11, 81, 42, 169, 168, 177, 11, 81, 227, 213, 8, 108, 220, 245, 197, 37, 223, 237, 90, 181, 55, 214, 28, 222, 69, 5, 185, 78, 61, 253, 167, 182, 130, 234, 129, 11, 8, 250, 52, 155, 139, 6, 107, 163, 67, 178, 12, 55, 120, 224, 115, 201, 224, 35, 96, 164, 110, 182, 168, 4, 94, 114, 85, 140, 34, 206, 47, 119, 107, 238, 136, 202, 218, 5, 252, 192, 150, 254, 26, 56, 140, 63, 103, 238, 190, 174, 92, 122, 10, 43, 223, 248, 80, 156, 191, 130, 137 },
+                            Salt = new byte[] { 219, 86, 152, 95, 176, 41, 6, 137, 65, 236, 45, 36, 181, 114, 126, 105, 212, 93, 36, 9, 183, 42, 59, 178, 154, 240, 224, 63, 67, 248, 77, 186, 240, 155, 163, 49, 183, 237, 138, 160, 28, 192, 70, 174, 255, 125, 185, 110, 172, 229, 162, 252, 50, 181, 71, 84, 162, 224, 226, 81, 120, 245, 85, 40, 168, 7, 209, 168, 47, 114, 204, 39, 184, 74, 159, 38, 117, 166, 220, 54, 255, 173, 190, 140, 157, 158, 63, 76, 135, 97, 69, 249, 98, 21, 69, 37, 134, 231, 174, 243, 112, 148, 90, 223, 246, 34, 37, 175, 4, 33, 125, 86, 81, 217, 106, 223, 211, 104, 68, 122, 170, 179, 240, 63, 135, 56, 198, 253 },
                             Username = "admin"
                         });
                 });
@@ -166,9 +168,8 @@ namespace DC.WebApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("DayToWork")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("DayToWork")
+                        .HasColumnType("integer");
 
                     b.Property<long>("EmployeeId")
                         .HasColumnType("bigint");
@@ -179,7 +180,7 @@ namespace DC.WebApi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<long?>("PropertyParentId")
+                    b.Property<long>("PropertyId")
                         .HasColumnType("bigint");
 
                     b.Property<TimeSpan>("StartTime")
@@ -189,9 +190,9 @@ namespace DC.WebApi.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("PropertyParentId");
+                    b.HasIndex("PropertyId");
 
-                    b.ToTable("WorkUnits", (string)null);
+                    b.ToTable("WorkUnits");
                 });
 
             modelBuilder.Entity("DC.WebApi.Core.Data.Entities.EmployeeEntity", b =>
@@ -213,18 +214,15 @@ namespace DC.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DC.WebApi.Core.Data.Entities.PropertyEntity", "PropertyParent")
-                        .WithMany("WorkList")
-                        .HasForeignKey("PropertyParentId");
+                    b.HasOne("DC.WebApi.Core.Data.Entities.PropertyEntity", "Property")
+                        .WithMany()
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
 
-                    b.Navigation("PropertyParent");
-                });
-
-            modelBuilder.Entity("DC.WebApi.Core.Data.Entities.PropertyEntity", b =>
-                {
-                    b.Navigation("WorkList");
+                    b.Navigation("Property");
                 });
 #pragma warning restore 612, 618
         }

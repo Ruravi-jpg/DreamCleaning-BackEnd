@@ -12,7 +12,6 @@ namespace DC.WebApi.Core.Domain.Models
         public float HoursService { get; set; }
         public float CostService { get; set; }
         public string Comments { get; set; }
-        public List<IFormFile> ReferencePhotosList { get; set; }
         public List<long> EmployeeList { get; set; }
 
         public PropertyUpdateModel()
@@ -27,7 +26,6 @@ namespace DC.WebApi.Core.Domain.Models
             float hoursService,
             float costService,
             string comments,
-            List<IFormFile> referencePhotosList,
             List<long> employeeList)
         {
             Alias = alias;
@@ -37,7 +35,6 @@ namespace DC.WebApi.Core.Domain.Models
             HoursService = hoursService;
             CostService = costService;
             Comments = comments;
-            ReferencePhotosList = referencePhotosList;
             EmployeeList = employeeList;
         }
     }

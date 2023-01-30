@@ -10,6 +10,6 @@ namespace DC.WebApi.Core.Data.Repositories
         Task<PropertyEntity> FindByIdAsync(long idProp, CancellationToken token);
         Task<List<PropertyEntity>> GetAllInactiveAsync(CancellationToken token);
         Task<PropertyEntity> FindInactiveByIdAsync(long idProp, CancellationToken token);
-        Task<string> FindImagesUrl(string alias, string guid, CancellationToken token);
+        Task<string> FindImagesUrl(long id, string guid, CancellationToken token);
     }
 }

@@ -4,7 +4,8 @@
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionString": "Server='MYSQL5039.site4now.net';Database='db_a919a5_ruravim';Uid=a919a5_ruravim;Pwd=ruravi123"
       },
       "applicationUrl": "https://localhost:7161;http://localhost:5161",
       "dotnetRunMessages": true
@@ -15,6 +16,12 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",

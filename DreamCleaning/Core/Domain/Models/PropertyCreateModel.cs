@@ -11,8 +11,6 @@ namespace DC.WebApi.Core.Domain.Models
         public float HoursService { get; set; }
         public float CostService { get; set; }
         public string Comments { get; set; }
-        public List<byte[]> ReferencePhotosList { get; set; }
-        public List<long> EmployeesList { get; set; }
 
         public PropertyCreateModel()
         {
@@ -26,9 +24,7 @@ namespace DC.WebApi.Core.Domain.Models
             string btwnSrteet2,
             float hoursService,
             float costService,
-            string comments,
-            List<byte[]> referencePhotosList,
-            List<long> employeeIdList
+            string comments
             )
         {
             Alias = alias;
@@ -38,8 +34,6 @@ namespace DC.WebApi.Core.Domain.Models
             HoursService = hoursService;
             CostService = costService;
             Comments = comments;
-            ReferencePhotosList = referencePhotosList;
-            EmployeesList = employeeIdList;
         }
     }
 }

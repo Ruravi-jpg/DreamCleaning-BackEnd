@@ -14,7 +14,6 @@ namespace DC.WebApi.Api.Models
         public float CostService { get; set; }
         public string Comments { get; set; }
         public List<string> ReferencePhotosList { get; set; }
-        public List<EmployeePropertyViewModel> EmployeesList { get; set; }
 
         public PropertyViewModel(PropertyEntity property)
         {
@@ -27,18 +26,11 @@ namespace DC.WebApi.Api.Models
             CostService = property.CostService;
             Comments = property.Comments;
 
-            foreach(var imagePath in property.ReferencePhotosList)
+            ReferencePhotosList = new List<string>();
+            foreach (var imagePath in property.ReferencePhotosList)
             {
                 ReferencePhotosList.Add(Constants.GetImageGuid(imagePath));
             }
-            ReferencePhotosList = property.ReferencePhotosList;
-
-            EmployeesList = new List<EmployeePropertyViewModel>();
-            foreach (var employee in property.PropertyEmployees)
-            {
-                EmployeesList.Add(new EmployeePropertyViewModel(employee));
-            }
-            
         }
 
         public static List<PropertyViewModel> FromList(IReadOnlyList<PropertyEntity> properties)

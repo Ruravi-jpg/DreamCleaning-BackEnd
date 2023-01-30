@@ -5,6 +5,7 @@ using DC.WebApi.Api.Services;
 using DC.WebApi.Core.Domain;
 using DreamCleaning.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -61,7 +62,6 @@ namespace DreamCleaning.Controllers
             }
             return Ok(false);
         }
-
 
         [HttpGet("test")]
         public ActionResult<string> testApi()

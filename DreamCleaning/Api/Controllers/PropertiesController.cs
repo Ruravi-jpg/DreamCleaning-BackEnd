@@ -6,6 +6,8 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using DC.WebApi.Core.Data.Entities;
 using DC.WebApi.Api.Services.Permissions;
+using DC.WebApi.Api.Services;
+using Npgsql.Replication.PgOutput.Messages;
 
 namespace DC.WebApi.Api.Controllers
 {
@@ -64,18 +66,26 @@ namespace DC.WebApi.Api.Controllers
             return Ok(new PropertyViewModel(property));
         }
 
-        [HttpGet("images/{alias}/{guid}")]
+        [HttpGet("images/{id}/{guid}")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Text.Plain)]
-        public async Task<IActionResult> GetImage([FromRoute] string alias, [FromRoute] string guid, CancellationToken token)
+        public async Task<IActionResult> GetImage([FromRoute] long id, [FromRoute] string guid, CancellationToken token)
         {
-            var imagePath = await _propertyDomain.GetImagesPath(alias, guid, token);
+            var imagePath = await _propertyDomain.GetImagesPath(id, guid, token);
 
             if (imagePath == default)
                 NotFound();
+            try
+            {
 
+            }
+            catch (DirectoryNotFoundException)
+            {
+                NotFound();
+                throw;
+            }
             byte[] bytes = System.IO.File.ReadAllBytes(imagePath);
             string mimeType = Constants.GetMimeType(guid);
             return File(bytes, mimeType);
@@ -85,22 +95,49 @@ namespace DC.WebApi.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Consumes("multipart/form-data")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> Post([FromForm] PropertyCreateModel property, CancellationToken token)
+        public async Task<IActionResult> Post([FromBody] PropertyCreateModel property, CancellationToken token)
         {
             _permisionService.EnsureCanCreateProperty(UserJwt);
             var propertyDb = await _propertyDomain.CreatePropertyAsync(property, token);
-            return CreatedAtAction(nameof(Get), new { IdProp = propertyDb.Id }, null);
+            return CreatedAtAction(nameof(Get), new { idProp = propertyDb.Id }, null);
         }
 
+        [HttpPost("images/{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes("multipart/form-data")]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> PostImages([FromForm] IFormCollection images, [FromRoute] long id, CancellationToken token)
+        {
+
+            _permisionService.EnsureCanModifyProperty(UserJwt);
+
+            var property = await _propertyDomain.FindByIdAsync(id, token);
+
+            if (property == default)
+                return NotFound();
+
+            if (images == null)
+                throw new ArgumentNullException(nameof(images));
+            if (images.Files == null)
+                throw new ArgumentNullException(nameof(images));
+
+            //if(images.Files.Count == 0)
+            //    return NoContent();
+
+            await _propertyDomain.AddPhotosAsync(images.Files, property, token);
+            return NoContent();
+
+        }
 
         [HttpPut("{idProp}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> Put([FromRoute] long idProp, [FromForm] PropertyUpdateModel property, CancellationToken token)
+        public async Task<IActionResult> Put([FromRoute] long idProp, [FromBody] PropertyUpdateModel property, CancellationToken token)
         {
 
             _permisionService.EnsureCanModifyProperty(UserJwt);
@@ -124,12 +161,97 @@ namespace DC.WebApi.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] long idProp, CancellationToken token)
         {
+            _permisionService.EnsureCanModifyProperty(UserJwt);
+
             var propertyDb = await _propertyDomain.FindByIdAsync(idProp, token);
 
             if (propertyDb == default)
                 return NotFound();
 
             await _propertyDomain.DeleteAsync(propertyDb, token);
+            return NoContent();
+        }
+
+        [HttpPost("{propId}/workUnit")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> PostWorkUnit([FromRoute] long propId, [FromBody] List<WorkUnitCreateModel> workUnitCreateModel, CancellationToken token)
+        {
+            var propertyDb = await _propertyDomain.FindByIdAsync(propId, token);
+
+            if (propertyDb == default)
+                return NotFound();
+
+            var workUnitDb = await _propertyDomain.CreateWorkUnit(propertyDb, workUnitCreateModel, token);
+            return Ok(workUnitDb);
+        }
+
+        [HttpGet("workUnits/{employeeId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IList<WorkUnitViewModelEmployee>> GetEmployeeWorkUnits([FromRoute] long employeeId, CancellationToken token)
+        {
+            var workUnits = await _propertyDomain.GetEmployeeWorkunitsAsync(employeeId, token);
+
+            return WorkUnitViewModelEmployee.FromList(workUnits);
+        }
+
+        [HttpGet("{propId}/workUnits")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IList<WorkUnitViewModelProperty>> GetPropertyWorkUnits([FromRoute] long propId, CancellationToken token)
+        {
+            var workUnits = await _propertyDomain.GetPropertyWorkunitsAsync(propId, token);
+
+            return WorkUnitViewModelProperty.FromList(workUnits);
+        }
+
+        [HttpDelete("workUnits")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> DeleteWorkUnits([FromBody]List<long> workunitsId, CancellationToken token)
+        {
+            _permisionService.EnsureCanModifyProperty(UserJwt);
+
+            foreach (var workUnitId in workunitsId)
+            {
+                var workUnit = await _propertyDomain.FindWorkUnitByIdAsync(workUnitId, token);
+
+                if (workUnit == default)
+                    continue;
+
+                await _propertyDomain.DeleteWorkUnitAsync(workUnit, token);
+
+            }
+            
+            return NoContent();
+        }
+
+        [HttpPut("{propId}/workUnits/{workUnitId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> PutWorkUnit([FromRoute] long propId, [FromRoute] long workUnitId, [FromBody] WorkUnitUpdateModel workUnit, CancellationToken token)
+        {
+
+            _permisionService.EnsureCanModifyProperty(UserJwt);
+
+            var workUnitDb = await _propertyDomain.FindWorkUnitByIdAsync(workUnitId, token);
+
+            if (workUnitDb == default)
+                return NotFound();
+            
+
+            await _propertyDomain.UpdateWorkUnit(workUnitDb, workUnit, token);
+
+
             return NoContent();
         }
     }

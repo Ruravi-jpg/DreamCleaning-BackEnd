@@ -19,12 +19,18 @@ namespace DC.WebApi.Core.Data
         public DbSet<EmployeeEntity> Employees { get; set; }
         public DbSet<PropertyEntity> Properties { get; set; }
 
+        public DbSet<WorkUnitEntity> WorkUnits { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserEntity>()
                 .Property(x => x.Role)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<WorkUnitEntity>()
+                .Property(x => x.DayToWork)
                 .HasConversion<string>();
 
             var salt = _password.GenerateSalt();

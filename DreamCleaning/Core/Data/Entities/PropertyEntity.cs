@@ -23,9 +23,7 @@ namespace DC.WebApi.Core.Data.Entities
         public string Comments { get; set; }
         public bool IsActive { get; set; }
         public List<string> ReferencePhotosList { get; set; }
-
-        public List<PropertyEmployeeEntity> PropertyEmployees { get; set; }
-
+        public List<WorkUnitEntity> WorkList { get; set; }
         public PropertyEntity()
         {
 
@@ -48,8 +46,8 @@ namespace DC.WebApi.Core.Data.Entities
             HoursService = hoursService;
             CostService = costService;
             Comments = comments;
-            PropertyEmployees = new List<PropertyEmployeeEntity>();
-
+            ReferencePhotosList = new();
+            WorkList = new();
             IsActive = true;
 
         }
