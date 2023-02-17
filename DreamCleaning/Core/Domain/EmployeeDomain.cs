@@ -68,6 +68,16 @@ namespace DC.WebApi.Core.Domain
             return employee;
         }
 
+        public Task<EmployeeEntity> FindByUserIdAsync(long idEmp, CancellationToken token)
+        {
+            var employee = _repo.FindByUserIdAsync(idEmp, token);
+
+            if(employee == default)
+                return default;
+
+            return employee;
+        }
+
         public Task<EmployeeEntity> FindInactiveByIdAsync(long idEmp, CancellationToken token)
         {
             var employee = _repo.FindInactiveByIdAsync(idEmp, token);

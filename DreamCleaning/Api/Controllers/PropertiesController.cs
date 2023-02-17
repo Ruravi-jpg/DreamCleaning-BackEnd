@@ -13,7 +13,7 @@ namespace DC.WebApi.Api.Controllers
 {
 
     [ApiController]
-    [Authorize(Roles = nameof(UserRole.SuperAdmin))]
+    [Authorize]
     [Route("api/" + Constants.SecuredApiPath + "/[controller]")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,26 +73,22 @@ namespace DC.WebApi.Api.Controllers
         [Produces(MediaTypeNames.Text.Plain)]
         public async Task<IActionResult> GetImage([FromRoute] long id, [FromRoute] string guid, CancellationToken token)
         {
+            var property = await _propertyDomain.FindByIdAsync(id, token);
+
+            if(property == default)
+                NotFound();
+
             var imagePath = await _propertyDomain.GetImagesPath(id, guid, token);
 
             if (imagePath == default)
                 NotFound();
-            try
-            {
-
-            }
-            catch (DirectoryNotFoundException)
-            {
-                NotFound();
-                throw;
-            }
+            
             byte[] bytes = System.IO.File.ReadAllBytes(imagePath);
             string mimeType = Constants.GetMimeType(guid);
             return File(bytes, mimeType);
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -173,7 +169,6 @@ namespace DC.WebApi.Api.Controllers
         }
 
         [HttpPost("{propId}/workUnit")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -211,34 +206,31 @@ namespace DC.WebApi.Api.Controllers
             return WorkUnitViewModelProperty.FromList(workUnits);
         }
 
-        [HttpDelete("workUnits")]
+        [HttpDelete("workUnits/{workUnitId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> DeleteWorkUnits([FromBody]List<long> workunitsId, CancellationToken token)
+        public async Task<IActionResult> DeleteWorkUnits([FromRoute]long workUnitId, CancellationToken token)
         {
             _permisionService.EnsureCanModifyProperty(UserJwt);
 
-            foreach (var workUnitId in workunitsId)
-            {
-                var workUnit = await _propertyDomain.FindWorkUnitByIdAsync(workUnitId, token);
 
-                if (workUnit == default)
-                    continue;
+            var workunit = await _propertyDomain.FindWorkUnitByIdAsync(workUnitId, token);
 
-                await _propertyDomain.DeleteWorkUnitAsync(workUnit, token);
+            if (workunit == default)
+                NotFound();
 
-            }
-            
+            await _propertyDomain.DeleteWorkUnitAsync(workunit, token);
+
             return NoContent();
         }
 
-        [HttpPut("{propId}/workUnits/{workUnitId}")]
+        [HttpPut("workUnits/{workUnitId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> PutWorkUnit([FromRoute] long propId, [FromRoute] long workUnitId, [FromBody] WorkUnitUpdateModel workUnit, CancellationToken token)
+        public async Task<IActionResult> PutWorkUnit([FromRoute] long workUnitId, [FromBody] WorkUnitUpdateModel workUnit, CancellationToken token)
         {
 
             _permisionService.EnsureCanModifyProperty(UserJwt);

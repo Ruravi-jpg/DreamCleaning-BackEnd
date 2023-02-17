@@ -62,6 +62,20 @@ namespace DC.WebApi.Api.Controllers
             return Ok(new EmployeeViewModel(vision));
         }
 
+        [HttpGet("users/{idUser}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<EmployeeViewModel>> GetByUserId([FromRoute] long idUser, CancellationToken token)
+        {
+            var vision = await _employeeDomain.FindByUserIdAsync(idUser, token);
+
+            if (vision == default)
+                return NotFound();
+
+            return Ok(new EmployeeViewModel(vision));
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

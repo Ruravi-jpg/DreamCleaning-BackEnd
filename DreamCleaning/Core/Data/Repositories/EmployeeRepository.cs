@@ -25,6 +25,13 @@ namespace DC.WebApi.Core.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == idEmp && x.IsActive == true , token);
         }
 
+        public Task<EmployeeEntity> FindByUserIdAsync(long idUser, CancellationToken token)
+        {
+            return _context.Employees
+                .Include(x => x.UserEntity)
+                .FirstOrDefaultAsync(x => x.UserEntityId == idUser && x.IsActive == true , token);
+        }
+
         public Task<EmployeeEntity> FindInactiveByIdAsync(long idEmp, CancellationToken token)
         {
             return _context.Employees

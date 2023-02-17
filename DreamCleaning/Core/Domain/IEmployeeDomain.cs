@@ -8,6 +8,7 @@ namespace DC.WebApi.Core.Domain
         Task<List<EmployeeEntity>> GetAllAsync(CancellationToken token);
         Task<List<EmployeeEntity>> GetAllInactiveAsync(CancellationToken token);
         Task<EmployeeEntity> FindByIdAsync(long idEmp, CancellationToken token);
+        Task<EmployeeEntity> FindByUserIdAsync(long idEmp, CancellationToken token);
         Task<EmployeeEntity> FindByAsync(long userEntityId, CancellationToken token);
         Task<int> UpdateAsync(EmployeeEntity employeeDb, EmployeeUpdateModel employee, CancellationToken token);
         Task<int> DeleteAsync(EmployeeEntity employee, CancellationToken token);
